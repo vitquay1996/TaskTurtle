@@ -8,7 +8,7 @@
    $result = pg_query($conn, $query);
    $row = pg_fetch_row($result);
 
-   $login_session = $row[0];
+   $login_email = $row[0];
    
    if(!isset($_SESSION['login_user'])){
       header("location:login.php");
