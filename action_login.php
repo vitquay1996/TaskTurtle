@@ -13,5 +13,7 @@
         header("location: welcome.php");
     } else {
         echo 'Invalid password or email';
+
+        header("location: login.php?wrongpassword=1");
     }
 ?>

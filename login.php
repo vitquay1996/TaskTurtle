@@ -4,6 +4,11 @@
 <h2>Log in</h2>
 
 <form action="./action_login.php" method="post" accept-charset="UTF-8">
+    <?php
+        if ($_GET['wrongpassword'] == 1) {
+            echo '<p style="color:red;">Wrong email or password. Try Again!</p>';
+        }
+    ?>
     Email:<br>
     <input type="text" name="email" size="35">
     <br>
