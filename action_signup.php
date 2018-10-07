@@ -9,5 +9,7 @@
     $result = pg_query($conn, $query);
     if ($result) {
         echo "Success";
+        $_SESSION['login_user'] = $email;
+        header("location: index.php");
     }
 ?>

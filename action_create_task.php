@@ -7,14 +7,15 @@
     $conn = pg_connect("host={$DB_HOST} port={$DB_PORT} dbname={$DB_NAME} user={$DB_USER} password={$DB_PASS}");
 
     $uuid = uuid();
-    $result = pg_query($conn, "INSERT INTO tasks VALUES ({$uuid}, {$login_email}, NULL, {$category}, {$date}, {$address}, {$task_description}, {$estimated_hours}, 0, 0)");
+    $result = pg_query($conn, "INSERT INTO tasks VALUES ('{$uuid}', '{$_SESSION['login_user']}', NULL, '{$category}', '{$date}', '{$address}', '{$task_description}', {$estimated_hours}, 0, 0);");
 
     if ($result) {
         echo 'Successfully created task!';
-        header("location: task_details.php?id=" . $id);
+        header("location: task_details.php?id=" . $uuid);
     } else {
         echo 'Some fields are not correct!';
-        header("location: create_task.php?error=1&category=".$category."&address=".$address."&description=".$task_description."&est_hour=".$estimated_hours);
+        $error = pg_result_error($result);
+        header("location: create_task.php?error={$error}");
     }
 
     function uuid() {

@@ -35,6 +35,12 @@
         <p>Estimated duration</p>
         <input type="number" name="estimated_hours"/><br/>
         <input type="submit"/>
+
     </form>
+    <?php
+        echo "
+            <button onclick=\"window.location.href = '/index.php'\">Home</button>
+        ";
+    ?>
 </body>
 </html>

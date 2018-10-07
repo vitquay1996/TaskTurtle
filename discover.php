@@ -12,6 +12,10 @@
         $db = pg_connect("host=127.0.0.1 port=5432 dbname=postgres user=postgres password=vietnamcongsan");
         $tasks = pg_query($db, "SELECT * FROM tasks");
 
+        echo "
+            <button onclick=\"window.location.href = '/index.php'\">Home</button>
+        ";
+
         echo "<table>";
         echo "<tr>";
         echo "<th>"."Task ID"."</th>";

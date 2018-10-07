@@ -32,6 +32,10 @@
                 echo "</td>";
                 echo "</tr>";
             }
+
+            echo "
+                <button onclick=\"window.location.href = '/index.php'\">Home</button>
+            ";
         }
     ?>
 </body>

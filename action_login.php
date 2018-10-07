@@ -10,7 +10,7 @@
     if (password_verify($password, $row[0])) {
         echo 'Password is valid!';
         $_SESSION['login_user'] = $email;
-        header("location: welcome.php");
+        header("location: index.php");
     } else {
         echo 'Invalid password or email';
 

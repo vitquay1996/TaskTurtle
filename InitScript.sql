@@ -16,7 +16,7 @@ CREATE TABLE task_category (
 );
 
 CREATE TABLE tasks (
-    id                 serial PRIMARY KEY,
+    id                 CHAR(36) PRIMARY KEY,
     owner_email        VARCHAR(63) NOT NULL
         REFERENCES users( email ),
     tasker_email       VARCHAR(63) 
@@ -37,6 +37,7 @@ tasker_email VARCHAR(63) REFERENCES users(email),
 task_id VARCHAR(63) REFERENCES tasks(id),
 price NUMERIC NOT NULL, 
 is_accepted INT NOT NULL CHECK ( is_accepted BETWEEN 0 and 1 )
+PRIMARY KEY (tasker_email, task_id)
 ); 
 
 INSERT INTO users VALUES ( 'november@gmail.com', 'November', '9DE6FE1D', NULL, 'Nancy', '94406541', 'Hello, I am November!' );
