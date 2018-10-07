@@ -2,7 +2,7 @@
     require_once 'config.php';
     session_start();
     extract($_POST);
-    $conn = pg_connect("host=" . DB_HOST . ", port=" . DB_PORT . ", dbname=" . DB_NAME);
+    $conn = pg_connect("host=" . DB_HOST . " port=" . DB_PORT . " dbname=" . DB_NAME . " user=" . DB_USER . " password=" . DB_PASS);
     
     $query = "SELECT salted_password FROM users WHERE email='" . $email . "'";
     $result = pg_query($conn, $query);
