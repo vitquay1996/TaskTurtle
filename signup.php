@@ -17,7 +17,7 @@
     <input type="text" name="address" size="35">
     <br>
     Phone:<br>
-    <input type="number" name="phone" size="35">
+    <input type="text" name="phone" size="35">
     <br>
     Introduction:<br>
     <input type="text" name="introduction" size="35">
