@@ -4,7 +4,7 @@
     extract($_POST);
 
     $conn = pg_connect("host=" . DB_HOST . " port=" . DB_PORT . " dbname=" . DB_NAME . " user=" . DB_USER . " password=" . DB_PASS);
-    $query = "SELECT * from bids WHERE tasker_email = '{$_SESSION['login_user']}'";
+    $query = "SELECT * from bids WHERE tasker_email = '{$_SESSION['login_user']}' AND task_id = '{$_POST['id']}'";
 
     $result = pg_query($conn, $query);
 
