@@ -1,0 +1,33 @@
+#top-bar {
+    background-color: #353D46;
+    padding: 15px;
+    padding-left: 10%;
+    padding-right: 10%;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+}
+
+#top-bar-app-name {
+    flex: 1;
+    color: white;
+    margin: 0px;
+}
+
+
+#user-icon {
+    margin-right: 5px;
+}
+
+#user-name-top-bar {
+    color: white;
+}
+
+#sign-out-button {
+    margin-left: 20px;
+}
