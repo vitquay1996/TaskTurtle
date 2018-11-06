@@ -41,7 +41,7 @@ CREATE TABLE bids (
     tasker_email VARCHAR(63) REFERENCES users(email),
     task_id VARCHAR(63) REFERENCES tasks(id),
     price NUMERIC NOT NULL, 
-    is_accepted INT NOT NULL CHECK ( is_accepted BETWEEN -1 and 1 ),
+    is_accepted INT NOT NULL CHECK ( is_accepted BETWEEN 0 and 1 ),
     PRIMARY KEY (tasker_email, task_id)
 );
 
@@ -55,13 +55,4 @@ CREATE TABLE reviews (
     rating INT NOT NULL CHECK (rating BETWEEN 0 AND 5),
     review_content VARCHAR(1023),
     PRIMARY KEY (task_id, reviewer_email, receiver_email)
-);
-
-CREATE TABLE review_photos (
-    task_id VARCHAR(63) REFERENCES tasks(id),
-    reviewer_email VARCHAR(63) REFERENCES users(email),
-    receiver_email VARCHAR(63) REFERENCES users(email),
-    receiver_role role NOT NULL,
-    review_photo_path VARCHAR(63),
-    caption VARCHAR(63)
 );
