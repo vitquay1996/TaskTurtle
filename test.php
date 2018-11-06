@@ -7,13 +7,14 @@
 <?php
 echo "My first PHP script!";
 $email = "quang@u.com";
-echo "INSERT INTO users VALUES ('" . $email . "'," . $email . "\', '9DE6FE1D', NULL, 'Nancy', '94406541', 'Hello, I am November!' )";
+//echo "INSERT INTO users VALUES ('" . $email . "'," . $email . "\', '9DE6FE1D', NULL, 'Nancy', '94406541', 'Hello, I am November!' )";
 //echo "INSERT INTO users VALUES ( \'" . $email . "\'," . $email . "\'," . '9DE6FE1D', NULL, 'Nancy', '94406541', 'Hello, I am November!' )";
 
 ?>
 
 <?php
 require_once 'config.php';
+echo "host=" . DB_HOST . ", port=" . DB_PORT . ", dbname=" . DB_NAME;
 $conn = pg_connect("host=" . DB_HOST . ", port=" . DB_PORT . ", dbname=" . DB_NAME);
 
 $query = "SELECT * from users";
