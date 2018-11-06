@@ -33,7 +33,7 @@ CREATE TABLE tasks (
     is_paid            INT NOT NULL CHECK ( is_paid BETWEEN 0 AND 1 ),
     CONSTRAINT check_task_conditions CHECK ( is_finished >= is_paid ),
     CONSTRAINT check_end_after_start_date CHECK (time_end > time_start),
-    CONSTRAINT check_datetime_after_localtime CHECK (time_start > localtime AND date > current_date)
+    CONSTRAINT check_datetime_after_localtime CHECK ((time_start > localtime AND date = current_date) OR date > current_date)
 );
 
 CREATE TABLE bids (
