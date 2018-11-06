@@ -11,7 +11,7 @@
     $conn = pg_connect("host={$DB_HOST} port={$DB_PORT} dbname={$DB_NAME} user={$DB_USER} password={$DB_PASS}");
 
     $uuid = uuid();
-    $result = pg_query($conn, "INSERT INTO tasks VALUES ('{$uuid}', '{$_SESSION['login_user']}', NULL, NULL, '{$category}', '{$date}', '{$timestart}', '{$timeend}', '{$address}', '{$description}', 0, 0);");
+    $result = pg_query($conn, "INSERT INTO tasks VALUES ('{$uuid}', '{$_SESSION['login_user']}', NULL, '{$category}', '{$date}', '{$timestart}', '{$timeend}', '{$address}', '{$description}', 0, 0);");
 
     if ($result) {
         echo json_encode(array("success" => true));
