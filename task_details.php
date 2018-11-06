@@ -92,12 +92,7 @@
                         echo "</table>";
                     }
                 } else {
-                    echo "
-                    <form action=\"bid_action.php\" method=\"post\">
-                        <p>Bid for this task</p>
-                        <input type=\"number\" step=\"0.01\" name=\"bid_price\"/>
-                        <input type=\"submit\" name=\"Bid\"/>
-                        <input type=\"hidden\" name=\"id\" value=\"{$_GET['id']}\" />
+                    echo " />
                     </form>
                 ";
                 }
