@@ -9,6 +9,9 @@
 
     $result = pg_query($conn, $query);
     $resultArray = pg_fetch_all($result);
-    echo json_encode($resultArray);
-    
+    if ($resultArray) {
+        echo json_encode($resultArray);
+    } else {
+        echo json_encode(array());
+    } 
 ?>

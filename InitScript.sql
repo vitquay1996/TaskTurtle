@@ -56,6 +56,39 @@ CREATE TABLE reviews (
     PRIMARY KEY (task_id, reviewer_email, receiver_email)
 );
 
+CREATE OR REPLACE FUNCTION safe_insert_bid(email VARCHAR(63), task_id CHAR(36), price NUMERIC)
+    RETURNS NUMERIC AS $$
+    DECLARE success NUMERIC;
+    DECLARE tasker_date DATE;
+    DECLARE tasker_start TIME;
+    DECLARE tasker_end TIME;
+    DECLARE intended_date DATE;
+    DECLARE intended_start TIME;
+    DECLARE intended_end TIME;
+
+    DECLARE date_cursor SCROLL CURSOR (cemail
+        VARCHAR(63)) for select t.date, t.time_start, t.time_end from tasks t, bids b where t.id = b.task_id and b.tasker_email = email and b.is_accepted = 1;
+    BEGIN
+        select date into intended_date from tasks where id = task_id;
+        select time_start into intended_start from tasks where id = task_id;
+        select time_end into intended_end from tasks where id = task_id;
+
+        OPEN date_cursor(cemail := email);
+        success := 1;
+        LOOP
+            FETCH date_cursor into tasker_date, tasker_start, tasker_end;
+            if intended_date = tasker_date and ((intended_start >= tasker_start and intended_start < tasker_end) or (intended_end > tasker_start and intended_end <= tasker_end)) then
+                success := 0;
+            end if;
+            exit when not found;
+        end loop;
+        if success = 1 then
+            insert into bids values (email, task_id, price, 0);
+        end if;
+        return success;
+    end; $$
+    LANGUAGE PLPGSQL;
+
 INSERT INTO users VALUES ('huiying@gmail.com','GOH HUI YING', 'f0578f1e7174b1a41c4ea8c6e17f7a8a3b88c92a', NULL,'Kent Ridge','90610624','Hi I am Hui Ying!', false, NULL, NULL);
 INSERT INTO users VALUES ('kahhong@hotmail.com','ONG KAH HONG', '8be52126a6fde450a7162a3651d589bb51e9579d', NULL,'Clementi','97320661','Hi I am Kah Hong!', false, NULL, NULL);
 INSERT INTO users VALUES ('huangzhanpeng@gmail.com','HUANG ZHANPENG','de2a4d5751ab06dc4f987142db57c26d50925c8a', NULL,'Pioneer','92045854','Hi I am Huang Zhanpeng!', false, NULL, NULL);

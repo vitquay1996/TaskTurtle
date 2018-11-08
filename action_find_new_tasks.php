@@ -1,6 +1,6 @@
 <?php
-// require 'session.php';
 require_once 'config.php';
+require_once 'session.php';
 $conn = pg_connect("host=" . DB_HOST . " port=" . DB_PORT . " dbname=" . DB_NAME . " user=" . DB_USER . " password=" . DB_PASS);
 
 extract($_POST);
@@ -11,7 +11,7 @@ if (is_null($category) &&
     is_null($timeEnd) && 
     is_null($keyword) && 
     is_null($ifWorkedWithBefore)) {
-    $query = "SELECT * FROM tasks WHERE is_finished = 0 ";
+    $query = "SELECT * FROM tasks WHERE is_finished = 0 AND ";
 } else {
     $query = "SELECT * FROM tasks WHERE is_finished = 0 and ";
     if ($category) {
@@ -33,9 +33,8 @@ if (is_null($category) &&
     if ($keyword) {
         $query = $query . "to_tsvector(description || '. ' || category || '. ' || address) @@ to_tsquery('{$keyword}') AND ";
     }
-
-    $query = $query . "true";
 }
+$query = $query . "requester_email != '" . $_SESSION['login_user'] . "'";
 // echo $query;
 $result = pg_query($conn, $query);
 $resultArray = pg_fetch_all($result);

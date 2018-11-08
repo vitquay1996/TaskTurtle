@@ -8,9 +8,9 @@
 
     $result = pg_query($conn, $query);
 
-    if ($result){
-        echo json_encode($result);
+    if ($result) {
+        echo json_encode(array("success" => true));
     } else {
-        echo json_encode(array());
+        echo json_encode(array("success" => false));
     }
 ?>
