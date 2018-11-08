@@ -39,4 +39,5 @@ $query = $query . "requester_email != '" . $_SESSION['login_user'] . "'";
 $result = pg_query($conn, $query);
 $resultArray = pg_fetch_all($result);
 echo json_encode($resultArray);
+echo "hello";
 ?>
