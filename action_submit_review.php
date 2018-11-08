@@ -4,7 +4,7 @@
     extract($_POST);
 
     $conn = pg_connect("host=" . DB_HOST . " port=" . DB_PORT . " dbname=" . DB_NAME . " user=" . DB_USER . " password=" . DB_PASS);
-    $query = "INSERT INTO reviews VALUES ('{$task_id}', '{$reviewer_email}', '{$receiver_email}', '{$receiver_role}', '{$rating}','{$review_content}' )";
+    $query = "INSERT INTO reviews VALUES ('{$task_id}', '{$_SESSION['login_user']}', '{$receiver_email}', '{$receiver_role}', '{$rating}','{$review_content}' )";
 
     $result = pg_query($conn, $query);
 
