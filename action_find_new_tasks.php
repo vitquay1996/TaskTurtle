@@ -34,7 +34,7 @@ if (is_null($category) &&
         $query = $query . "to_tsvector(description || '. ' || category || '. ' || address) @@ to_tsquery('{$keyword}') AND ";
     }
 
-    $query = $query . "requester_email <>= '" . $_SESSION['login_user'] . "'";
+    $query = $query . "requester_email != '" . $_SESSION['login_user'] . "'";
 }
 // echo $query;
 $result = pg_query($conn, $query);
