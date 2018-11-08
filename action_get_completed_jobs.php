@@ -1,6 +1,6 @@
 <?php
     require_once 'config.php';
-    //require_once 'session.php'
+    require_once 'session.php';
     extract($_POST);
 
     $conn = pg_connect("host=" . DB_HOST . " port=" . DB_PORT . " dbname=" . DB_NAME . " user=" . DB_USER . " password=" . DB_PASS);
@@ -11,7 +11,7 @@
     if ($result){
         echo json_encode($result);
     } else {
-        echo json_encode(array())
+        echo json_encode(array());
     }
 
 ?>
