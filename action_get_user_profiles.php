@@ -21,7 +21,7 @@
             "ratingRequester" => $row["rating_requester"]
         ));
     } else {
-        json_encode(array(
+        echo json_encode(array(
            "isLoggedIn" => false
         ));
     }

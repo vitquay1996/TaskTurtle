@@ -4,21 +4,27 @@
     extract($_POST);
 
     $conn = pg_connect("host={$DB_HOST} port={$DB_PORT} dbname={$DB_NAME} user={$DB_USER} password={$DB_PASS}");
-    $query = "UPDATE tasks SET tasker_email = '{$tasker_email}' WHERE id = '{$task_id}';";
+    $query = "UPDATE tasks SET tasker_email = '{$taskerEmail}' WHERE id = '{$taskId}';";
 
     $result = pg_query($conn, $query);
 
     if ($result) {
-        $query = "UPDATE bids SET is_accepted = 1 WHERE tasker_email = '{$tasker_email}';";
+        $query = "UPDATE bids SET is_accepted = 1 WHERE tasker_email = '{$taskerEmail}' AND id = '{$taskId}';";
 
         $result = pg_query($conn, $query);
 
         if ($result) {
-            echo "Success";
+            echo json_encode(array(
+                "success" => true
+            ));
         } else {
-            echo "Error";
+            echo json_encode(array(
+                "success" => false
+            ));
         }
     } else {
-        echo "Error";
+        echo json_encode(array(
+            "success" => false
+        ));
     }
 ?>

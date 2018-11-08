@@ -1,16 +1,16 @@
 <?php
+    require_once 'config.php';
     header('Access-Control-Allow-Origin: http://localhost:3000');
     header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
     header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
     header('Access-Control-Allow-Credentials: true');
-    require_once 'config.php';
+
     session_start();
     extract($_POST);
     $conn = pg_connect("host=" . DB_HOST . " port=" . DB_PORT . " dbname=" . DB_NAME . " user=" . DB_USER . " password=" . DB_PASS);
-    
+
     $password = password_hash($password, PASSWORD_DEFAULT);
     $query = "INSERT INTO users VALUES ('{$email}','{$fullname}','{$password}', NULL,'{$address}','{$phone}','{$introduction}', FALSE, NULL, NULL)";
-//    echo $query;
     $result = pg_query($conn, $query);
     if ($result) {
         $_SESSION['login_user'] = $email;

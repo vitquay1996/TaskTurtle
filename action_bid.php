@@ -9,7 +9,7 @@
     $result = pg_query($conn, $query);
 
     if (pg_num_rows($result) != 0) {
-        $query2 = "UPDATE bids SET price = '{$_POST['bidPrice']}' WHERE tasker_email = '{$_SESSION['login_user']}' AND task_id = '{$_POST['taskId']}'";
+        $query2 = "UPDATE bids SET price = '{$_POST['price']}' WHERE tasker_email = '{$_SESSION['login_user']}' AND task_id = '{$_POST['taskId']}'";
         $result2 = pg_query($conn, $query2);
         if ($result2) {
             echo json_encode(array(
@@ -17,11 +17,12 @@
             ));
         } else {
             echo json_encode(array(
-                "success" => false
+                "success" => false,
+                "query" => $query2
             ));
         }
     } else {
-        $query2 = "INSERT INTO bids VALUES ('{$_SESSION['login_user']}', '{$_POST['taskId']}',  '{$_POST['bidPrice']}', 0);";
+        $query2 = "INSERT INTO bids VALUES ('{$_SESSION['login_user']}', '{$_POST['taskId']}',  '{$_POST['price']}', 0);";
         $result2 = pg_query($conn, $query2);
         if ($result2) {
             echo json_encode(array(
@@ -29,7 +30,8 @@
             ));
         } else {
             echo json_encode(array(
-                "success" => false
+                "success" => false,
+                "query" => $query2
             ));
         }
     }
