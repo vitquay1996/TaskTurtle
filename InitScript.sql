@@ -56,6 +56,31 @@ CREATE TABLE reviews (
     PRIMARY KEY (task_id, reviewer_email, receiver_email)
 );
 
+CREATE OR REPLACE FUNCTION update_rating() RETURNS trigger
+AS $$
+   DECLARE
+       old_rating NUMERIC;
+       new_rating NUMERIC;
+       old_rating_count INT;
+   BEGIN
+       IF receiver_role = 'requester' THEN
+           SELECT users.rating_requester INTO old_rating FROM users WHERE users.email = receiver_email;
+           SELECT COUNT(*) INTO old_rating_count FROM reviews WHERE reviews.receiver_email = receiver_email AND receiver_role = receiver_role;
+           new_rating = (old_rating + rating) / (old_rating_count + 1);
+           UPDATE users SET users.rating_requester = new_rating WHERE users.email = receiver_email;
+       ELSE
+           SELECT users.rating_tasker INTO old_rating FROM users WHERE users.email = receiver_email;
+           SELECT COUNT(*) INTO old_rating_count FROM reviews WHERE reviews.receiver_email = receiver_email AND receiver_role = receiver_role;
+           new_rating = (old_rating + rating) / (old_rating_count + 1);
+           UPDATE users SET users.rating_tasker = new_rating WHERE users.email = receiver_email;
+       END IF;
+   END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER on_rating_received BEFORE INSERT ON reviews
+FOR EACH ROW
+EXECUTE PROCEDURE update_rating();
+
 CREATE OR REPLACE FUNCTION safe_insert_bid(email VARCHAR(63), task_id CHAR(36), price NUMERIC)
     RETURNS NUMERIC AS $$
     DECLARE success NUMERIC;
