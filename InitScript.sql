@@ -62,18 +62,32 @@ AS $$
        old_rating NUMERIC;
        new_rating NUMERIC;
        old_rating_count INT;
+       query_receiver_role role;
+       query_rating NUMERIC;
+       query_receiver_email VARCHAR(63);
    BEGIN
-       IF receiver_role = 'requester' THEN
-           SELECT users.rating_requester INTO old_rating FROM users WHERE users.email = receiver_email;
-           SELECT COUNT(*) INTO old_rating_count FROM reviews WHERE reviews.receiver_email = receiver_email AND receiver_role = receiver_role;
-           new_rating = (old_rating + rating) / (old_rating_count + 1);
-           UPDATE users SET users.rating_requester = new_rating WHERE users.email = receiver_email;
+       query_receiver_role := New.receiver_role;
+       query_rating := new.rating;
+       query_receiver_email := new.receiver_email;
+
+       IF query_receiver_role = 'requester' THEN
+           SELECT rating_requester INTO old_rating FROM users WHERE email = query_receiver_email;
+           SELECT COUNT(*) INTO old_rating_count FROM reviews WHERE receiver_email = query_receiver_email AND receiver_role = query_receiver_role;
+           if old_rating is NULL then
+               old_rating := 0;
+           end if;
+           new_rating = (old_rating * old_rating_count + query_rating) / (old_rating_count + 1);
+           UPDATE users SET rating_requester = new_rating WHERE email = query_receiver_email;
        ELSE
-           SELECT users.rating_tasker INTO old_rating FROM users WHERE users.email = receiver_email;
-           SELECT COUNT(*) INTO old_rating_count FROM reviews WHERE reviews.receiver_email = receiver_email AND receiver_role = receiver_role;
-           new_rating = (old_rating + rating) / (old_rating_count + 1);
-           UPDATE users SET users.rating_tasker = new_rating WHERE users.email = receiver_email;
+           SELECT rating_tasker INTO old_rating FROM users WHERE email = query_receiver_email;
+           SELECT COUNT(*) INTO old_rating_count FROM reviews WHERE receiver_email = query_receiver_email AND receiver_role = query_receiver_role;
+           if old_rating is NULL then
+               old_rating := 0;
+           end if;
+           new_rating = (old_rating * old_rating_count + query_rating) / (old_rating_count + 1);
+           UPDATE users SET rating_tasker = new_rating WHERE email = query_receiver_email;
        END IF;
+       RETURN NULL;
    END;
 $$ LANGUAGE plpgsql;
 

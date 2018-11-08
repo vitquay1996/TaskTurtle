@@ -9,7 +9,7 @@
     $result = pg_query($conn, $query);
 
     if ($result) {
-        $query = "UPDATE bids SET is_accepted = 1 WHERE tasker_email = '{$taskerEmail}' AND id = '{$taskId}';";
+        $query = "UPDATE bids SET is_accepted = 1 WHERE tasker_email = '{$taskerEmail}' AND task_id = '{$taskId}';";
 
         $result = pg_query($conn, $query);
 
