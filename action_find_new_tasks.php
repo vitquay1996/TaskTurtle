@@ -21,10 +21,10 @@ if (is_null($category) &&
         $query = $query . "date = '{$date}' AND ";
     }
     if ($timeStart) {
-        $query = $query . "time_start = '{$timeStart}' AND ";
+        $query = $query . "time_start >= '{$timeStart}' AND ";
     } 
     if ($timeEnd) {
-        $query = $query . "time_end = '{$timeEnd}' AND ";
+        $query = $query . "time_end <= '{$timeEnd}' AND ";
     }
     if ($ifWorkedWithBefore == 'true') {
         // $query = $query . "requester_email IN (SELECT requester_email from tasks where tasker_email = 'huiying@gmail.com') AND ";
@@ -35,7 +35,6 @@ if (is_null($category) &&
     }
 }
 $query = $query . "requester_email != '" . $_SESSION['login_user'] . "'";
-// echo $query;
 $result = pg_query($conn, $query);
 $resultArray = pg_fetch_all($result);
 echo json_encode($resultArray);
